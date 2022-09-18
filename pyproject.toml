@@ -1,0 +1,20 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "waypath_optimizer"
+version = "0.0.0"
+description = "A tool to solve for the optimal waypath given a track and cost function"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Arvin Kushwaha", email = "arvin.singh.kushwaha@gmail.com"}]
+maintainers = [{ name = "Arvin Kushwaha", email = "arvin.singh.kushwaha@gmail.com"}]
+keywords = ["racing", "optimization", "waypoint"]
+requires-python = ">=3.7"
+dependencies = [
+    "opencv-python",
+    "numpy",
+    "shapely",
+    "matplotlib"
+]
