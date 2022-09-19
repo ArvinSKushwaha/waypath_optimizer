@@ -16,5 +16,7 @@ dependencies = [
     "opencv-python",
     "numpy",
     "shapely",
-    "matplotlib"
+    "matplotlib",
+    "torch",
+    "PyYAML",
 ]
