@@ -6,8 +6,12 @@ from .random_trackgen import create_track, convert_track
 
 
 def track_generate():
-    track, track_int, track_ext = create_track()
-    convert_track(track, track_int, track_ext, 0)
+    while True:
+        track_data = create_track()
+        if track_data != False:
+            track, track_int, track_ext = track_data
+            convert_track(track, track_int, track_ext, 0)
+            break
 
 
 class TestRacetrackParsing(unittest.TestCase):
