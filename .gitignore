@@ -9,3 +9,6 @@ __pycache__/
 
 .tox
 .cache
+
+maps/
+centerline/
