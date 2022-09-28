@@ -2,7 +2,7 @@ from typing import Optional
 from PIL import Image
 import numpy as np
 import yaml
-from scipy.ndimage import distance_transform_edt, binary_fill_holes
+from scipy.ndimage import distance_transform_edt
 
 
 def get_dt(img: np.ndarray, map_resolution: float) -> np.ndarray | None:
@@ -13,7 +13,32 @@ def get_dt(img: np.ndarray, map_resolution: float) -> np.ndarray | None:
     if img.dtype != np.bool8 or img.ndim != 2:
         return None
 
-    return distance_transform_edt(img, map_resolution, return_distances=True)
+    return distance_transform_edt(img, map_resolution, return_distances=True) # type: ignore
+
+
+def image_fill(img: np.ndarray, origin_x: int, origin_y: int) -> np.ndarray | None:
+    """
+    Flood fill the image from the origin point.
+    """
+    if img.dtype != np.bool8 or img.ndim != 2:
+        return None
+
+    stack = [(origin_x, origin_y)]
+    while stack:
+        x, y = stack.pop()
+        if img[x, y]:
+            continue
+        img[x, y] = True
+        if x > 0 and not img[x - 1, y]:
+            stack.append((x - 1, y))
+        if x < img.shape[0] - 1 and not img[x + 1, y]:
+            stack.append((x + 1, y))
+        if y > 0 and not img[x, y - 1]:
+            stack.append((x, y - 1))
+        if y < img.shape[1] - 1 and not img[x, y + 1]:
+            stack.append((x, y + 1))
+
+    return img
 
 
 class Waypath:
@@ -43,5 +68,15 @@ class Waypath:
         # Now, find the set of pixels that are contigous white pixels starting from the origin.
         # This is the set of pixels that are on the waypath.
         img_orig_x, img_orig_y = int(orig_x / map_resolution + width / 2), int(orig_y / map_resolution + height / 2)
-        img ^= binary_fill_holes(img, origin=(img_orig_x, img_orig_y)).astype(np.bool8)
-        Image.fromarray(img).show()
+
+        filled_img = np.copy(img)
+        filled_img = image_fill(filled_img, img_orig_x, img_orig_y)
+
+        # if filled_img is None:
+        #     raise ValueError("Failed to fill image")
+        #
+        # filled_img ^= img
+
+        Image.fromarray(filled_img.astype(np.uint8) * 255).show()
+        # Image.fromarray(img.astype(np.uint8) * 255).show()
+
