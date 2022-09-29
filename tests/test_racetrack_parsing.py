@@ -2,7 +2,10 @@ import unittest
 import shutil
 import os
 
+import numpy as np
+
 from .random_trackgen import create_track, convert_track
+from waypath_optimizer import image_fill
 
 
 def track_generate():
@@ -20,7 +23,22 @@ class TestRacetrackParsing(unittest.TestCase):
         os.mkdir("./centerline")
 
     def test_track_parse(self):
-        track_generate()
+        pass
+
+    def test_flood_fill(self):
+        assert np.all(image_fill(np.array([
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 0, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ], dtype=np.bool_), 2, 2) == np.array([
+            [0, 0, 0, 0, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 1, 1, 1, 0],
+            [0, 0, 0, 0, 0],
+        ], dtype=np.bool_))
 
     def tearDown(self) -> None:
         shutil.rmtree("./maps")

@@ -23,6 +23,9 @@ def image_fill(img: np.ndarray, origin_x: int, origin_y: int) -> np.ndarray | No
     if img.dtype != np.bool8 or img.ndim != 2:
         return None
 
+    if img.shape[0] <= origin_x or img.shape[1] <= origin_y:
+        return None
+
     stack = [(origin_x, origin_y)]
     while stack:
         x, y = stack.pop()
