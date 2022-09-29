@@ -1,4 +1,4 @@
-build/
+ubuild/
 dist/
 *.egg-info/
 *.egg
@@ -12,3 +12,6 @@ __pycache__/
 
 maps/
 centerline/
+
+.coverage
+coverage.xml
