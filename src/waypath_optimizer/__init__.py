@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import Optional, Union
 from PIL import Image
 import numpy as np
 import yaml
@@ -16,7 +16,7 @@ def get_dt(img: np.ndarray, map_resolution: float) -> np.ndarray | None:
     return distance_transform_edt(img, map_resolution, return_distances=True) # type: ignore
 
 
-def image_fill(img: np.ndarray, origin_x: int, origin_y: int) -> np.ndarray | None:
+def image_fill(img: np.ndarray, origin_x: int, origin_y: int) -> Union[np.ndarray, None]:
     """
     Flood fill the image from the origin point.
     """
