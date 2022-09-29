@@ -5,7 +5,7 @@ import yaml
 from scipy.ndimage import distance_transform_edt
 
 
-def get_dt(img: np.ndarray, map_resolution: float) -> np.ndarray | None:
+def get_dt(img: np.ndarray, map_resolution: float) -> Union[np.ndarray, None]:
     """
     Get distance transform of the image. The image is assumed to be a binary
     image with 0 as free space and 1 as occupied space.
